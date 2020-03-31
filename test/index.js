@@ -83,7 +83,7 @@ test('pass - insertOne document into a collection', async t => {
   t.end()
 })
 
-test('pass - removeOne document from a collection', async t => {
+test('pass - deleteOne document from a collection', async t => {
   const { err, data } = await deleteOne({
     database,
     connectionString,

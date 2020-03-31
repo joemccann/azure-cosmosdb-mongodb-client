@@ -43,6 +43,60 @@ const {
   remove: removeCollection
 } = require('azure-cosmosdb-mongodb-client').collections
 
+const {
+  insertOne,
+  deleteOne,
+  insertMany,
+  deleteMany
+} = require('azure-cosmosdb-mongodb-client').documents
+
+//
+// Example usage
+//
+
+const connectionString = process.env.PRIMARY_CONNECTION_STRING
+const database = 'test-db-1'
+const collection = 'test-collection-1'
+
+const document = { foo: 'bar0', id: 100, things: [1, 2, 3, 4] }
+const documents = [
+  { foo: 'bar1', id: 102, things: [1, 2, 3, 4] },
+  { foo: 'bar2', id: 103, things: [1, 2, 3, 4] },
+  { foo: 'bar3', id: 104, things: [1, 2, 3, 4] }
+]
+
+
+const { err, data } = await createDB({
+  database,
+  connectionString
+})
+
+const { err, data } = await createCollection({
+  database,
+  connectionString,
+  collection
+})
+
+const { err, data } = await deleteOne({
+  database,
+  connectionString,
+  collection,
+  query: { foo: { $eq: 'bar' } }
+})
+
+const { err, data } = await insertMany({
+  database,
+  connectionString,
+  collection,
+  documents
+})
+
+const { err, data } = await deleteMany({
+  database,
+  connectionString,
+  collection,
+  query: { foo: { $gt: 101 } }
+})
 ```
 
 ## Tests
