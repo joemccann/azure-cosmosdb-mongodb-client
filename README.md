@@ -48,7 +48,7 @@ const {
 ## Tests
 
 > Note: you will need a `.env` file to run the tests and the tests will read
-and write to your Azure Storage account.
+and write to your Azure CosmosDB instance.
 
 ```sh
 npm i -D
