@@ -1,0 +1,35 @@
+{
+	"name": "azure-cosmosdb-mongodb-client",
+	"version": "1.0.0",
+	"description": "🪐 A super opinionated, async/await CosmosDB client using the MongoDB API",
+	"main": "index.js",
+	"directories": {
+		"test": "test"
+	},
+	"scripts": {
+		"pretest": "clear && standard .",
+		"test": "node test/"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/joemccann/azure-cosmosdb-mongodb-client.git"
+	},
+	"keywords": [
+		"cosmosdb"
+	],
+	"author": "Joe McCann",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/joemccann/azure-cosmosdb-mongodb-client/issues"
+	},
+	"homepage": "https://github.com/joemccann/azure-cosmosdb-mongodb-client#readme",
+	"devDependencies": {
+		"standard": "^14.3.3",
+		"tape": "^4.13.2"
+	},
+	"dependencies": {
+		"@azure/cosmos": "^3.6.2",
+		"dotenv": "^8.2.0",
+		"mongodb": "^3.5.5"
+	}
+}
