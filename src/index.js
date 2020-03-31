@@ -11,6 +11,7 @@ module.exports = {
     deleteOne: require('./documents/deleteOne'),
     deleteMany: require('./documents/deleteMany'),
     insertOne: require('./documents/insertOne'),
-    insertMany: require('./documents/insertMany')
+    insertMany: require('./documents/insertMany'),
+    find: require('./documents/find')
   }
 }

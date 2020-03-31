@@ -15,7 +15,8 @@ const {
   insertOne,
   deleteOne,
   insertMany,
-  deleteMany
+  deleteMany,
+  find
 } = require('..').documents
 
 const database = 'test-db-1'
@@ -29,6 +30,14 @@ const documents = [
   { foo: 'bar2', id: 103, things: [1, 2, 3, 4] },
   { foo: 'bar3', id: 104, things: [1, 2, 3, 4] }
 ]
+
+const finish = async () => {
+  const { err, data } = await dropDB({ database, connectionString })
+  if (err) console.error(err)
+  console.log(`Dropped database: ${data}`)
+}
+
+test.onFinish(finish)
 
 test('sanity', t => {
   t.ok(true)
@@ -83,22 +92,6 @@ test('pass - insertOne document into a collection', async t => {
   t.end()
 })
 
-test('pass - deleteOne document from a collection', async t => {
-  const { err, data } = await deleteOne({
-    database,
-    connectionString,
-    collection,
-    query: { foo: { $eq: 'bar' } }
-  })
-  const { result = {} } = data
-  const { n, ok } = result
-  t.equals(n, 0)
-  t.equals(ok, 1)
-  t.ok(!err)
-  t.ok(data)
-  t.end()
-})
-
 test('pass - insertMany documents into a collection', async t => {
   //
   // Create immutable copy
@@ -129,6 +122,78 @@ test('pass - insertMany documents into a collection', async t => {
   t.end()
 })
 
+test('pass - find all documents in a collection', async t => {
+  const { err, data } = await find({
+    database,
+    connectionString,
+    collection
+  })
+
+  t.ok(!err)
+  t.ok(data)
+  t.equals(data.length, 4)
+  t.end()
+})
+
+test('pass - find specific documents in a collection', async t => {
+  const { err, data } = await find({
+    database,
+    connectionString,
+    collection,
+    query: { id: { $gt: 102 } }
+  })
+
+  t.ok(!err)
+  t.ok(data)
+  t.equals(data.length, 2)
+  t.end()
+})
+
+test('pass - find specific documents in a collection with a specific projection'
+  , async t => {
+  //
+  // Create immutable copy
+  //
+
+    const { err, data } = await find({
+      database,
+      connectionString,
+      collection,
+      query: { id: { $gt: 102 } },
+      projection: { foo: 1, things: 1, _id: 0 }
+    })
+    const valid = [
+      { foo: 'bar2', things: [1, 2, 3, 4] },
+      { foo: 'bar3', things: [1, 2, 3, 4] }
+    ]
+
+    t.ok(!err)
+    t.ok(data)
+    t.equals(data.length, 2)
+    t.deepEquals(valid, data)
+    t.end()
+  })
+
+//
+// Run these last or create a cleanup function
+//
+
+test('pass - deleteOne document from a collection', async t => {
+  const { err, data } = await deleteOne({
+    database,
+    connectionString,
+    collection,
+    query: { foo: { $eq: 'bar' } }
+  })
+  const { result = {} } = data
+  const { n, ok } = result
+  t.equals(n, 0)
+  t.equals(ok, 1)
+  t.ok(!err)
+  t.ok(data)
+  t.end()
+})
+
 test('pass - removeMany documents from a collection', async t => {
   const { err, data } = await deleteMany({
     database,
@@ -146,9 +211,6 @@ test('pass - removeMany documents from a collection', async t => {
   t.end()
 })
 
-//
-// Run these last or create a cleanup function
-//
 test('pass - remove collection', async t => {
   const { err, data } = await removeCollection({
     database,
