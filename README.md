@@ -65,7 +65,6 @@ const documents = [
   { foo: 'bar3', id: 104, things: [1, 2, 3, 4] }
 ]
 
-
 const { err, data } = await createDB({
   database,
   connectionString
