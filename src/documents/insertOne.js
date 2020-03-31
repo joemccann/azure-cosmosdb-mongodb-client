@@ -30,7 +30,7 @@ module.exports = async ({
     if (!databaseName) {
       const msg = [
         'No database name was returned from MongDB when',
-        'attempting to create a new collection.'
+        'attempting to insert a document.'
       ].join(' ')
 
       return { err: new Error(msg) }

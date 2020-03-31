@@ -8,9 +8,9 @@ module.exports = {
     remove: require('./collections/remove')
   },
   documents: {
-    insertOne: require('./documents/insertOne'),
     deleteOne: require('./documents/deleteOne'),
-    find: require('./documents/find'),
-    read: require('./documents/read')
+    deleteMany: require('./documents/deleteMany'),
+    insertOne: require('./documents/insertOne'),
+    insertMany: require('./documents/insertMany')
   }
 }

@@ -30,13 +30,13 @@ module.exports = async ({
     if (!databaseName) {
       const msg = [
         'No database name was returned from MongDB when',
-        'attempting to delete a document.'
+        'attempting to delete many documents.'
       ].join(' ')
 
       return { err: new Error(msg) }
     }
 
-    const data = await db.collection(collection).deleteOne(query)
+    const data = await db.collection(collection).deleteMany(query)
 
     if (client) {
       client.close()

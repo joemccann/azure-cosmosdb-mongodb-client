@@ -4,7 +4,7 @@ module.exports = async ({
   database = '',
   connectionString = '',
   collection = '',
-  query = null
+  documents = []
 }) => {
   if (!database) return { err: new Error('Missing `database` parameter.') }
 
@@ -14,7 +14,13 @@ module.exports = async ({
 
   if (!collection) return { err: new Error('Missing `collection` parameter.') }
 
-  if (!query) return { err: new Error('Missing `query` parameter.') }
+  if (!Array.isArray(documents)) {
+    return { err: new Error('`document` parameter is not an array.') }
+  }
+
+  if (!documents.length) {
+    return { err: new Error('Missing `documents` parameter.') }
+  }
 
   let client = null
 
@@ -30,13 +36,13 @@ module.exports = async ({
     if (!databaseName) {
       const msg = [
         'No database name was returned from MongDB when',
-        'attempting to delete a document.'
+        'attempting to insert many documents.'
       ].join(' ')
 
       return { err: new Error(msg) }
     }
 
-    const data = await db.collection(collection).deleteOne(query)
+    const data = await db.collection(collection).insertMany(documents)
 
     if (client) {
       client.close()
