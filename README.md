@@ -36,12 +36,12 @@ const collection = 'test-collection-1'
 const {
   create: createDB,
   drop: dropDB
-} = require('..').db
+} = require('azure-cosmosdb-mongodb-client').db
 
 const {
   create: createCollection,
   remove: removeCollection
-} = require('..').collections
+} = require('azure-cosmosdb-mongodb-client').collections
 
 ```
 
