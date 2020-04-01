@@ -4,7 +4,7 @@ module.exports = async ({
   database = '',
   connectionString = '',
   collection = '',
-  query = {},
+  filter = {},
   projection = null
 }) => {
   if (!database) return { err: new Error('Missing `database` parameter.') }
@@ -15,7 +15,7 @@ module.exports = async ({
 
   if (!collection) return { err: new Error('Missing `collection` parameter.') }
 
-  if (!query) return { err: new Error('Missing `query` parameter.') }
+  if (!filter) return { err: new Error('Missing `filter` parameter.') }
 
   let client = null
 
@@ -39,7 +39,7 @@ module.exports = async ({
 
     const data = []
     let document = null
-    const cursor = await db.collection(collection).find(query, { projection })
+    const cursor = await db.collection(collection).find(filter, { projection })
 
     while ((document = await cursor.next())) {
       data.push(document)

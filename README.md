@@ -101,9 +101,26 @@ const { err, data } = await find({
   database,
   connectionString,
   collection,
-  query: { id: { $gt: 102 } }, // optional; {} returns all documents
+  filter: { id: { $gt: 102 } }, // optional; {} returns all documents
   projection: { foo: 1, things: 1, _id: 0 } // optional
 })
+
+const { err, data } = await findOneAndUpdate({
+  database,
+  connectionString,
+  collection,
+  filter: document,
+  update: { $set: { id: 99 } }
+})
+
+const { err, data } = await find({
+  database,
+  connectionString,
+  collection,
+  filter: { id: { $eq: 99 } },
+  projection: { foo: 1, things: 1, _id: 0, id: 1 }
+})
+
 
 ```
 

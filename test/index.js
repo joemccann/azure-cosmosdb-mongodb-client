@@ -141,7 +141,7 @@ test('pass - find specific documents in a collection', async t => {
     database,
     connectionString,
     collection,
-    query: { id: { $gt: 102 } }
+    filter: { id: { $gt: 102 } }
   })
 
   t.ok(!err)
@@ -160,7 +160,7 @@ test('pass - find specific documents in a collection with a specific projection'
       database,
       connectionString,
       collection,
-      query: { id: { $gt: 102 } },
+      filter: { id: { $gt: 102 } },
       projection: { foo: 1, things: 1, _id: 0 }
     })
     const valid = [
@@ -203,7 +203,7 @@ test('pass - find the updated document', async t => {
     database,
     connectionString,
     collection,
-    query: { id: { $eq: 99 } },
+    filter: { id: { $eq: 99 } },
     projection: { foo: 1, things: 1, _id: 0, id: 1 }
   })
 
@@ -218,7 +218,6 @@ test('pass - find the updated document', async t => {
 //
 // Run these last or create a cleanup function
 //
-
 test('pass - deleteOne document from a collection', async t => {
   const { err, data } = await deleteOne({
     database,
