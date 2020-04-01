@@ -1,6 +1,6 @@
 {
 	"name": "azure-cosmosdb-mongodb-client",
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"description": "🪐 A super opinionated, async/await CosmosDB client using the MongoDB API",
 	"main": "index.js",
 	"directories": {
