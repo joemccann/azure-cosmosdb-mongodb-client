@@ -16,7 +16,8 @@ const {
   deleteOne,
   insertMany,
   deleteMany,
-  find
+  find,
+  findOneAndUpdate
 } = require('..').documents
 
 const database = 'test-db-1'
@@ -173,6 +174,46 @@ test('pass - find specific documents in a collection with a specific projection'
     t.deepEquals(valid, data)
     t.end()
   })
+
+test('pass - fine one and update a document in a collection', async t => {
+  const { _id, ...notId } = document
+
+  const { err, data } = await findOneAndUpdate({
+    database,
+    connectionString,
+    collection,
+    filter: notId,
+    update: { $set: { id: 99 } }
+  })
+
+  const { result = {} } = data
+
+  const { n, nModified, ok } = result
+
+  t.ok(!err)
+  t.ok(data)
+  t.equals(n, 1)
+  t.equals(nModified, 1)
+  t.equals(ok, 1)
+  t.end()
+})
+
+test('pass - find the updated document', async t => {
+  const { err, data } = await find({
+    database,
+    connectionString,
+    collection,
+    query: { id: { $eq: 99 } },
+    projection: { foo: 1, things: 1, _id: 0, id: 1 }
+  })
+
+  const valid = [{ foo: 'bar0', id: 99, things: [1, 2, 3, 4] }]
+
+  t.ok(!err)
+  t.ok(data)
+  t.deepEquals(data, valid)
+  t.end()
+})
 
 //
 // Run these last or create a cleanup function
