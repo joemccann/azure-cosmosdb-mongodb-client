@@ -96,6 +96,15 @@ const { err, data } = await deleteMany({
   collection,
   query: { foo: { $gt: 101 } }
 })
+
+const { err, data } = await find({
+  database,
+  connectionString,
+  collection,
+  query: { id: { $gt: 102 } }, // optional; {} returns all documents
+  projection: { foo: 1, things: 1, _id: 0 } // optional
+})
+
 ```
 
 ## Tests
